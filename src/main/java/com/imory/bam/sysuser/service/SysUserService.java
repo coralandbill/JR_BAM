@@ -66,4 +66,16 @@ public class SysUserService {
     {
         return sysUserMapper.listSysUser(startPos, maxRows);
     }
+
+    /**
+     * 登录
+     *
+     * @param logonId
+     * @param password
+     * @return
+     */
+    public SysUser userLogon(String logonId, String password)
+    {
+        return sysUserMapper.userLogon(logonId, password);
+    }
 }

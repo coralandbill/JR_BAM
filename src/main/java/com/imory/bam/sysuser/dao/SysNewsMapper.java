@@ -1,5 +1,6 @@
 package com.imory.bam.sysuser.dao;
 
+import com.imory.bam.sysuser.bean.SysNews;
 import org.apache.ibatis.annotations.*;
 
 import java.util.Date;
@@ -15,12 +16,13 @@ import java.util.Map;
  * @version 1.0
  * @Date 2017/7/14
  */
+@Mapper
 public interface SysNewsMapper {
 
     @Select({
             "select * from sys_news limit #{startPos},#{maxRows}"
     })
-    List<Map<String, Object>> listSysNews(@Param("startPos") Integer startPos, @Param("maxRows") Integer maxRows);
+    List<SysNews> listSysNews(@Param("startPos") Integer startPos, @Param("maxRows") Integer maxRows);
 
     @Select({
             "select count(*) from sys_news"
@@ -30,14 +32,15 @@ public interface SysNewsMapper {
     @Select({
             "select * from sys_news where id = #{id}"
     })
-    Map<String, Object> getSysNewsById(@Param("id") Integer id);
+    SysNews getSysNewsById(@Param("id") Integer id);
 
     @Insert({
             "insert into sys_news(picUrl,title,content,source,newsDate,createTime)",
             "values",
             "(#{picUrl},#{title},#{content},#{source},#{newsDate},now())"
     })
-    int insert();
+    int insert(@Param("picUrl") String picUrl, @Param("title") String title, @Param("content") String content,
+               @Param("source") String source, @Param("newsDate") Date newsDate);
 
     @Update({
             "update sys_news set picUrl=#{picUrl},title=#{title},content=#{content},source=#{source},#{newsDate}",

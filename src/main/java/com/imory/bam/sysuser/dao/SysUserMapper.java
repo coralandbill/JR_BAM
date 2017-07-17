@@ -24,7 +24,7 @@ public interface SysUserMapper {
     SysUser findUserById(@Param("id") Integer id);
 
     @Insert({
-            "insert into sys_user(logonId,userName,password,level)",
+            "insert into sys_user(logonId,userName,password,level,createTime)",
             "values",
             "(#{logonId},#{userName},#{password},#{level},now())"
     })
@@ -32,7 +32,7 @@ public interface SysUserMapper {
                @Param("level") Integer level);
 
     @Update({
-            "update sys_user set password = '123456'",
+            "update sys_user set password = 'e10adc3949ba59abbe56e057f20f883e'",
             "where id = #{id}"
     })
     void resertPsd(@Param("id") Integer id);
@@ -42,4 +42,9 @@ public interface SysUserMapper {
             "limit #{startPos},#{maxRows}"
     })
     List<SysUser> listSysUser(@Param("startPos") Integer startPos, @Param("maxRows") Integer maxRows);
+
+    @Select({
+            "select * from sys_user where logonId = #{logonId} and password = #{password}"
+    })
+    SysUser userLogon(@Param("logonId") String logonId, @Param("password") String password);
 }

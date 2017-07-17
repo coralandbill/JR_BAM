@@ -3,6 +3,7 @@ package com.imory.bam.controller;
 import com.imory.bam.sysuser.bean.SysUser;
 import com.imory.bam.sysuser.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0
  * @Date 2017/7/11
  */
-@RestController
+@Controller
 @RequestMapping("sysUser")
 public class SysUserController {
 

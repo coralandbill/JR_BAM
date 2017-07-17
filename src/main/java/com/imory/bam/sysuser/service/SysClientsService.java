@@ -24,10 +24,45 @@ public class SysClientsService {
 
     /**
      * 查询所有客户
+     *
      * @return
      */
     public List<SysClients> listSysClients()
     {
         return sysClientsMapper.listSysClients();
+    }
+
+    /**
+     * 保存客户
+     *
+     * @param picUrl
+     * @param bindUrl
+     * @return
+     */
+    public int insert(String picUrl, String bindUrl)
+    {
+        return sysClientsMapper.insert(picUrl, bindUrl);
+    }
+
+    /**
+     * 删除
+     *
+     * @param id
+     */
+    public void deleteById(Integer id)
+    {
+        sysClientsMapper.deleteById(id);
+    }
+
+    /**
+     * 更新
+     *
+     * @param picUrl
+     * @param bindUrl
+     * @param id
+     */
+    public void update(String picUrl, String bindUrl, Integer id)
+    {
+        sysClientsMapper.update(picUrl, bindUrl, id);
     }
 }

@@ -1,11 +1,12 @@
 package com.imory.bam.sysuser.dao;
 
+import com.imory.bam.sysuser.bean.SysServices;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>名称</p>
@@ -16,12 +17,13 @@ import java.util.Map;
  * @version 1.0
  * @Date 2017/7/14
  */
+@Mapper
 public interface SysServicesMapper {
 
     @Select({
             "select * from sys_services"
     })
-    List<Map<String, Object>> listSysServices();
+    List<SysServices> listSysServices();
 
     @Update({
             "update sys_services set title=#{title}, desc=#{desc}",

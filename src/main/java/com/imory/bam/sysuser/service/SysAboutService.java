@@ -23,12 +23,11 @@ public class SysAboutService {
     /**
      * 查询关于我们
      *
-     * @param id
      * @return
      */
-    public SysAbout loadAbout(Integer id)
+    public SysAbout loadAbout()
     {
-        return sysAboutMapper.loadAbout(id);
+        return sysAboutMapper.loadAbout();
     }
 
     /**

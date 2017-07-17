@@ -15,6 +15,7 @@ import java.util.Map;
  * @version 1.0
  * @Date 2017/7/14
  */
+@Mapper
 public interface SysClientsMapper {
 
     @Select({
@@ -27,7 +28,7 @@ public interface SysClientsMapper {
             "values",
             "(#{picUrl},#{bindUrl},now())"
     })
-    int insert();
+    int insert(@Param("picUrl") String picUrl, @Param("bindUrl") String bindUrl);
 
     @Delete({
             "delete from sys_clients where id = #{id}"

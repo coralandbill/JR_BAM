@@ -47,4 +47,9 @@ public interface SysUserMapper {
             "select * from sys_user where logonId = #{logonId} and password = #{password}"
     })
     SysUser userLogon(@Param("logonId") String logonId, @Param("password") String password);
+
+    @Select({
+            "select * from sys_user where logonId = #{logonId}"
+    })
+    SysUser findSysUserByLogonId(@Param("logonId") String logonId);
 }

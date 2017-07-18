@@ -78,4 +78,15 @@ public class SysUserService {
     {
         return sysUserMapper.userLogon(logonId, password);
     }
+
+    /**
+     * 查询
+     *
+     * @param logonId
+     * @return
+     */
+    public SysUser findSysUserByLogonId(String logonId)
+    {
+        return sysUserMapper.findSysUserByLogonId(logonId);
+    }
 }

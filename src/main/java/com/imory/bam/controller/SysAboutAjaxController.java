@@ -19,7 +19,7 @@ import java.util.Map;
  * @Date 2017/7/17
  */
 @RestController
-@RequestMapping("sysAboutAjax")
+@RequestMapping("/bam/sysAboutAjax")
 public class SysAboutAjaxController {
 
     @Autowired

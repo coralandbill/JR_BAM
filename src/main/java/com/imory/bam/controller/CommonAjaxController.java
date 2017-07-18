@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Date 2017/7/15
  */
 @RestController
+@RequestMapping("/bam")
 public class CommonAjaxController {
 
     @RequestMapping("doAjaxLogin")

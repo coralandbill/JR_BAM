@@ -39,9 +39,9 @@ public class SysClientsService {
      * @param bindUrl
      * @return
      */
-    public int insert(String picUrl, String bindUrl)
+    public int insert(String name, String picUrl, String bindUrl)
     {
-        return sysClientsMapper.insert(picUrl, bindUrl);
+        return sysClientsMapper.insert(name, picUrl, bindUrl);
     }
 
     /**
@@ -61,8 +61,8 @@ public class SysClientsService {
      * @param bindUrl
      * @param id
      */
-    public void update(String picUrl, String bindUrl, Integer id)
+    public void update(String name, String picUrl, String bindUrl, Integer id)
     {
-        sysClientsMapper.update(picUrl, bindUrl, id);
+        sysClientsMapper.update(name, picUrl, bindUrl, id);
     }
 }

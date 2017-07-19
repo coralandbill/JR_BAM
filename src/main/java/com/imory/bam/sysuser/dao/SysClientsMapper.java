@@ -24,11 +24,11 @@ public interface SysClientsMapper {
     List<SysClients> listSysClients();
 
     @Insert({
-            "insert into sys_clients(picUrl,bindUrl,createTime)",
+            "insert into sys_clients(name,picUrl,bindUrl,createTime)",
             "values",
-            "(#{picUrl},#{bindUrl},now())"
+            "(#{name},#{picUrl},#{bindUrl},now())"
     })
-    int insert(@Param("picUrl") String picUrl, @Param("bindUrl") String bindUrl);
+    int insert(@Param("name") String name, @Param("picUrl") String picUrl, @Param("bindUrl") String bindUrl);
 
     @Delete({
             "delete from sys_clients where id = #{id}"
@@ -36,8 +36,8 @@ public interface SysClientsMapper {
     void deleteById(@Param("id") Integer id);
 
     @Update({
-            "update sys_clients set picUrl = #{picUrl},bindUrl=#{bindUrl}",
+            "update sys_clients set name=#{name},picUrl = #{picUrl},bindUrl=#{bindUrl}",
             "where id = #{id}"
     })
-    void update(@Param("picUrl") String picUrl, @Param("bindUrl") String bindUrl, @Param("id") Integer id);
+    void update(@Param("name") String name, @Param("picUrl") String picUrl, @Param("bindUrl") String bindUrl, @Param("id") Integer id);
 }

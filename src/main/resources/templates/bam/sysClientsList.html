@@ -10,11 +10,12 @@
     <!-- Bootstrap 3.3.6 -->
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css"/>
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="/css/font-awesome/4.5.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="/css/font-awesome.min.css"/>
     <!-- Ionicons -->
     <link rel="stylesheet" href="/css/ionicons.min.css"/>
     <!-- DataTables -->
     <link rel="stylesheet" href="/plugins/datatables/dataTables.bootstrap.css"/>
+    <link rel="stylesheet" href="/plugins/uploadifive/uploadifive.css"/>
     <!-- Theme style -->
     <link rel="stylesheet" href="/css/AdminLTE.min.css"/>
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -44,13 +45,12 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Data Tables
+                客户列表
                 <small>advanced tables</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="#">Tables</a></li>
-                <li class="active">Data tables</li>
+                <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+                <li><a href="#">客户列表</a></li>
             </ol>
         </section>
 
@@ -59,19 +59,20 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box">
-                        <div class="box-header">
-                            <h3 class="box-title">Hover Data Table</h3>
-                        </div>
+                        <!--<div class="box-header">
+                            <h3 class="box-title">客户列表</h3>
+                        </div>-->
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <table id="example1" class="table table-bordered table-hover">
+                            <button class="btn btn-primary" style="float: right" data-toggle="modal" data-target="#addModal">新增</button>
+                            <table id="example1" class="table table-bordered table-hover" style="text-align: center">
                                 <thead>
                                 <tr>
-                                    <th>Rendering engine</th>
-                                    <th>Browser</th>
-                                    <th>Platform(s)</th>
-                                    <th>Engine version</th>
-                                    <th>CSS grade</th>
+                                    <th>名称</th>
+                                    <th>图标</th>
+                                    <th>链接</th>
+                                    <th>日期</th>
+                                    <th>操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -87,6 +88,57 @@
         </section>
         <!-- /.content -->
     </div>
+    <!--defalut modal-->
+        <div class="modal" id="addModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">新增客户</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="box box-primary">
+                            <!-- /.box-header -->
+                            <!-- form start -->
+                            <form role="form">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label for="name">名称</label>
+                                        <input type="email" class="form-control" id="name" placeholder="请输入客户名称"/>
+                                    </div>
+                                    <div id="queue_papersImg"></div>
+                                    <div class="form-group">
+                                        <label for="file_logo">图标</label>
+                                        <input id="file_logo" name="file" type="file" multiple="false"/>
+                                        <p class="help-block">请上传客户Logo.</p>
+                                    </div>
+                                    <div id="img_papersImg" style="padding: 5px;">
+                                        <img src='http://imgs.jqueryfuns.com/2016/6/6/87f90ec1ca2a46301c8507dc03a7985d50146.jpg ' style='width:150px;'/>
+                                        <i class="fa fa-close" onclick="$('#picUrl').val('');$('#img_papersImg').html('');"></i>
+                                    </div>
+                                    <input type="hidden" id="picUrl" name="picUrl" value="" />
+                                    <div class="form-group">
+                                        <label for="bindUrl">链接</label>
+                                        <input type="text" class="form-control" id="bindUrl" placeholder="客户官网地址"/>
+                                    </div>
+                                </div>
+                                <!-- /.box-body -->
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary">保存</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+    <!--defalut modal-->
+
     <!-- /.content-wrapper -->
     <footer th:include="/bam/foot"></footer>
 
@@ -103,42 +155,113 @@
 <!-- DataTables -->
 <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="/scripts/moment.js"></script>
+<script src="/scripts/datatable-datetime.js"></script>
 <!-- FastClick -->
 <script src="/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/scripts/app.min.js"></script>
 <!-- page script -->
+<script src="/plugins/uploadifive/jquery.uploadifive.min.js"></script>
+<script src="/scripts/toast.js"></script>
 <script>
+    var table;
     $(function () {
-        /*$('#example1').DataTable({
-            ajax: '/bam/sysClientsAjax/listSysClients',
+        table = $('#example1').DataTable({
+            //开启服务器模式
+            serverSide: true,
+            ajax:'/bam/sysClientsAjax/listSysClients',
             columns: [
-                { data: 'picUrl' },
-                { data: 'bindUrl' },
-                { data: 'createTime' }
+                { data: "picUrl" },
+                { data: "bindUrl" },
+                { data: "createTime",type: "date" }
             ],
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false
-        });*/
-        $('#example1').DataTable({
-            ajax: '/bam/sysClientsAjax/listSysClients',
-            columns: [
-                { data: 'picUrl' },
-                { data: 'bindUrl' },
-                { data: 'createTime' }
-            ],
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false
+            columnDefs: [ {
+                targets: 2,
+                type:"datetime",
+                render: $.fn.dataTable.render.moment.unit( 'YYYY-MM-DD' )
+            },
+            {
+                targets: 3,
+                render: function (data, type, row) {
+                    return '<button class="btn btn-primary" onclick="deleteById(' + row.id + ');">删除</button>';
+                }
+            }],
+            language: {
+                url: "/plugins/datatables/cn.json"
+            },
+            paging: true,
+            lengthChange: false,
+            searching: false,
+            ordering: false,
+            info: true,
+            autoWidth: false,
+            paging: false
+        });
+
+        $('#file_logo').uploadifive({
+            'auto': true,
+            'multi': false,
+            'width': '100%',
+            'height': '35',
+            'fileObjName': 'file',
+            'buttonText': '上传LoGo',
+            'fileType': 'image/jpg,image/jpeg,image/png',
+            'fileSizeLimit': 1024,
+            'queueSizeLimit': 1,
+            'formData': {},
+            'queueID': 'queue_papersImg',
+            'uploadScript': '/bam/upload',
+            'onUploadComplete': function (file, data) {
+                data = JSON.parse(data);
+                if (data.success) {
+                    Toast.success("上传成功");
+                    var _html = '<img src="' + data.url + '" style="width:150px;"/>';
+                    _html += '<i class="fa fa-close" onclick="clearPapersImgFile();"></i>';
+                    $("#img_papersImg").html(_html);
+                    $("#queue_papersImg").html("");
+                    $("#picUrl").val(data.url);
+                } else {
+                    clearPapersImgFile();
+                    Toast.error("上传失败");
+                }
+            },
+            'onDrop': function (file, fileDropCount) {
+                clearPapersImgFile();
+            },
+            'onClearQueue': function (queue) {
+                clearPapersImgFile();
+            },
+            'onCancel': function () {
+                //clearPapersImgFile();
+            }
         });
     });
+    
+    function deleteById(id) {
+        $.ajax({
+            url: "/bam/sysClientsAjax/deleteById",
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            data:{
+                id:id
+            },
+            dataType: "json",
+            type: "POST",
+            success : function(data)
+            {
+                if(data.success)
+                {
+                    table.ajax.reload();
+                }
+            }
+        });
+    }
+
+    function clearPapersImgFile() {
+        $("#img_papersImg").html("");
+        $("#queue_papersImg").html("");
+        $("#picUrl").val("");
+    }
 </script>
 </body>
 </html>

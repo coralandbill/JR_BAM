@@ -21,7 +21,7 @@ import java.util.Map;
  * @version 1.0
  * @Date 2017/7/17
  */
-@Configuration
+//@Configuration
 public class ShiroConfiguration {
 
     /**
@@ -49,6 +49,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/scripts/**", "anon");
         filterChainDefinitionMap.put("/img/**", "anon");
         filterChainDefinitionMap.put("/bam/**", "authc");
+        filterChainDefinitionMap.put("/fonts/**", "authc");
 
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
         factoryBean.setLoginUrl("/bam/login");

@@ -1,7 +1,10 @@
 package com.imory.bam.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.imory.bam.sysuser.bean.SysClients;
 import com.imory.bam.sysuser.service.SysClientsService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,9 +35,15 @@ public class SysClientsAjaxController {
      * @return
      */
     @RequestMapping("/listSysClients")
-    public List<SysClients> listSysClients()
+    public String listSysClients(@Param("draw") int draw)
     {
-        return sysClientsService.listSysClients();
+        List<SysClients> sysClientsList = sysClientsService.listSysClients();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("data", JSON.toJSON(sysClientsList));
+        jsonObject.put("draw", draw);
+        jsonObject.put("recordsTotal", sysClientsList.size());
+        jsonObject.put("recordsFiltered", sysClientsList.size());
+        return jsonObject.toJSONString();
     }
 
     /**
@@ -45,10 +54,10 @@ public class SysClientsAjaxController {
      * @return
      */
     @RequestMapping("/saveSysClient")
-    public Map<String, Object> saveSysClient(String picUrl, String bindUrl)
+    public Map<String, Object> saveSysClient(String name, String picUrl, String bindUrl)
     {
         Map<String, Object> resultMap = new HashMap<>();
-        sysClientsService.insert(picUrl, bindUrl);
+        sysClientsService.insert(name, picUrl, bindUrl);
         resultMap.put("success", true);
         return resultMap;
     }
@@ -75,10 +84,10 @@ public class SysClientsAjaxController {
      * @return
      */
     @RequestMapping("/updateSysClient")
-    public Map<String, Object> updateSysClient(String picUrl, String bindUrl, Integer id)
+    public Map<String, Object> updateSysClient(String name, String picUrl, String bindUrl, Integer id)
     {
         Map<String, Object> resultMap = new HashMap<>();
-        sysClientsService.update(picUrl, bindUrl, id);
+        sysClientsService.update(name, picUrl, bindUrl, id);
         resultMap.put("success", true);
         return resultMap;
     }

@@ -101,7 +101,7 @@
                         <div class="box box-primary">
                             <!-- /.box-header -->
                             <!-- form start -->
-                            <form role="form">
+                            <form role="form" id="clientForm">
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label for="name">名称</label>
@@ -129,7 +129,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
-                        <button type="button" class="btn btn-primary">保存</button>
+                        <button type="button" class="btn btn-primary" onclick="saveClient();">保存</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -261,6 +261,37 @@
         $("#img_papersImg").html("");
         $("#queue_papersImg").html("");
         $("#picUrl").val("");
+    }
+    
+    function saveClient() {
+        if($("#name").val().trim().length == 0)
+        {
+            Toast.error("请填写客户名称");
+            return;
+        }
+        if($("#picUrl").val().trim().length == 0)
+        {
+            Toast.error("请上传logo");
+            return;
+        }
+        $.ajax({
+            url: "/bam/sysClientsAjax/saveSysClient",
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            data:{
+                name:$("#name").val().trim(),
+                picUrl:$("#picUrl").val().trim(),
+                bindUrl:$("#bindUrl").val().trim()
+            },
+            dataType: "json",
+            type: "POST",
+            success : function(data)
+            {
+                if(data.success)
+                {
+                    table.ajax.reload();
+                }
+            }
+        });
     }
 </script>
 </body>
